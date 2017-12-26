@@ -1,0 +1,23 @@
+SCENARIO_NAME=egypt has fallen
+
+;message headers
+Introduction=Introduction
+Victory=Victory
+Failure=Failure
+
+;message strings
+Intro1=Egypt has fallen!
+Intro2=An evil faction, known only as "Magic" has invaded and destroyed most of Egypt's kingdom.
+Intro3=In a futile attempt to fight off Magic's army, Egypt has sent her last remaining soldiers to stop them.
+Intro4=If they are not successful, you will be Egypt's only chance at survival. You must protect her until she's strong enough to fight back and to assist you in vanquishing the Magic faction.
+Intro5=If you are successful, Queen Cleopatra will figure out some way to repay her debt to you...
+
+victory1=You are victorious!
+victory2=Egypt is once again a thriving civilization.
+victory3=Queen Cleopatra walks across the battlefield to find you.
+victory4=She puts her hands on your face, leans in, and kisses you passionately.
+victory5=Then she takes your hand and leads you to her bed-chamber and turns out the light.
+
+failure1=Though you tried your best, and lost many good men, you have failed.
+failure2=Egypt will never again be restored to her former glory.
+failure3=On the other side of the battlefield, you see Queen Cleopatra crying, her tears covering the bodies of many fallen warriors.

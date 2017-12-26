@@ -1,0 +1,255 @@
+<?xml version="1.0" standalone="yes" ?>
+<scenario>
+--Egypt has fallen
+--Rev 2016.06.22-01
+--A MegaGlest ( https://megaglest.org/ ) network scenario
+--Stay alive long enough for your Egyptian ally to reinforce your armies!
+--By Andy Alt
+--CC-BY-SA
+<difficulty value="5"/>
+<players>
+	<player control="network" faction="tech" team="1"/>
+	<player control="human" faction="indian" team="1"/>
+	<player control="cpu-mega" faction="egypt" team="1"/>
+	<player control="network" faction="norsemen" team="1"/>
+	<player control="cpu-mega" faction="magic" team="2"/>
+	<player control="cpu-mega" faction="magic" team="2"/>
+	<player control="cpu-mega" faction="magic" team="2"/>
+	<player control="cpu-mega" faction="magic" team="2"/>
+</players>
+<map value="grandezza"/>
+<tileset value="autumn"/>
+<tech-tree value="megapack"/>
+	<default-resources value="true"/>
+	<default-units value="false"/>
+	<default-victory-conditions value="false"/>
+	<fog-of-war value="true"/>
+
+	<scripts>
+		<global>
+
+			--game constants. Only change them if you change the order or factions above
+			tech = 0
+			indian = 1
+			egypt = 2
+			norsemen = 3
+
+			--other variables. Best to leave them unchanged as well ;)
+			--These are used in unitCreated and unitDied sections below
+			slaveCount = 0
+			pyramidCount = 0
+			mageTowerCount = 0
+
+			battlemage_loop = 0
+			daemon_loop = 0
+			timesLooped = 0
+
+			rndAttackUnits = { "power_golem", "ghost_armor", "behemoth", "draco_rider", "daemon" }
+		</global>
+		<startup>
+
+
+			math.randomseed (os.time())
+
+
+			--Team 1 units
+
+			--Main buildings for Team 1
+			createUnit('castle', tech, startLocation(tech))
+			createUnit('main_teepee', indian, startLocation(indian))
+			createUnit('castle', norsemen, startLocation(norsemen))
+
+			--create workers
+			for playerNum=tech, indian do
+				for i=1, 4 do
+					createUnit('worker', playerNum, startLocation(playerNum))
+				end
+			end
+
+			for i=1, 4 do
+				createUnit('thrall', norsemen, startLocation(norsemen))
+			end
+
+			createUnit ( 'cow', tech, {26,210} )
+			createUnit ( 'cow', norsemen, {26,210} )
+
+			createUnit ( 'stickfighter', indian, startLocation (indian) )
+			createUnit ( 'stickfighter', indian, startLocation (indian) )
+			createUnit ( 'axe_thrower', indian, startLocation (indian) )
+			createUnit ( 'axe_thrower', indian, startLocation (indian) )
+			createUnit ( 'axe_thrower', indian, startLocation (indian) )
+
+			createUnit ( 'swordman', tech, startLocation (tech) )
+			createUnit ( 'swordman', tech, startLocation (tech) )
+			createUnit ( 'archer', tech, startLocation (tech) )
+			createUnit ( 'archer', tech, startLocation (tech) )
+			createUnit ( 'archer', tech, startLocation (tech) )
+
+			createUnit ( 'spearman', norsemen, startLocation (norsemen) )
+			createUnit ( 'spearman', norsemen, startLocation (norsemen) )
+			createUnit ( 'archer', norsemen, startLocation (norsemen) )
+			createUnit ( 'archer', norsemen, startLocation (norsemen) )
+			createUnit ( 'archer', norsemen, startLocation (norsemen) )
+
+
+
+			--create AI units (Team 2, Magic)
+			for playerNum=4, 7 do
+				createUnit('mage_tower', playerNum, startLocation(playerNum))
+				createUnit('energy_source',playerNum , startLocation(playerNum))
+				createUnit('energy_source',playerNum , startLocation(playerNum))
+				createUnit('battlemage', playerNum, startLocation(playerNum))
+				createUnit('battlemage', playerNum, startLocation(playerNum))
+				createUnit('daemon', playerNum, startLocation(playerNum))
+				createUnit('daemon', playerNum, startLocation(playerNum))
+				createUnit('daemon', playerNum, startLocation(playerNum))
+				createUnit('golem', playerNum, startLocation(playerNum))
+				createUnit('library', playerNum, startLocation(playerNum))
+
+				for j=1, 5 do
+					createUnit('initiate', playerNum, startLocation(playerNum))
+				end
+			--create nearby Egypt enemies
+			createUnit ( 'spearthrower', egypt, startLocation(playerNum) )
+						createUnit ( 'scarab', egypt, startLocation(playerNum) )
+			createUnit ( 'mummy', egypt, startLocation(playerNum) )
+			createUnit ( 'mummy', egypt, startLocation(playerNum) )
+
+
+			end
+
+
+
+			--Egypt units
+
+			createUnit( 'farm', egypt, {26,222} )
+			createUnit( 'farm', egypt, {26,222} )
+			createUnit( 'chicken', egypt, {26,210} )
+			createUnit( 'chicken', egypt, {26,210} )
+			createUnit('slave', egypt, startLocation(egypt))
+
+
+			--The starting pyramid is located near the enemy's  base
+			--It's needed to store resources long enough for Egypt to start
+			--building a new base
+			createUnit('pyramid', egypt, startLocation(5))
+
+
+			giveResource('gold', egypt, 500)
+			giveResource('stone', egypt, 500)
+			giveResource('wood', egypt, 500)
+
+			togglePauseGame(1)
+			showMessage ( 'Intro1', 'Introduction' )
+			showMessage ( 'Intro2', 'Introduction' );
+			showMessage ( 'Intro3', 'Introduction' );
+			showMessage ( 'Intro4', 'Introduction' );
+			showMessage ( 'Intro5', 'Introduction' );
+
+
+		</startup>
+
+
+		<unitCreated>
+			if lastCreatedUnitName() == 'slave' then
+				slaveCount = slaveCount + 1
+			end
+
+			if lastCreatedUnitName() == 'pyramid' then
+				pyramidCount = pyramidCount + 1
+			end
+
+			if lastCreatedUnitName() == 'mage_tower' then
+				mageTowerCount = mageTowerCount + 1
+			end
+
+			if lastCreatedUnitName() == 'daemon' then
+				daemon_loop = daemon_loop + 1
+				if daemon_loop == 5 then
+					--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
+					daemon_loop = 0
+				end
+			end
+
+			if lastCreatedUnitName() == 'battlemage' then
+				battlemage_loop = battlemage_loop + 1
+				if battlemage_loop == 5 then
+					--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
+
+					if timesLooped > 1 then
+						for AIplayer = 4, 7 do
+							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
+							createUnit ('golem', AIplayer, startLocation (AIplayer) )
+						end
+
+
+						AttackFrom = math.random(4, 7)
+						AttackTo = math.random (0, 3)
+
+						for i = 1, 4 do
+							whichUnit = math.random (1, #rndAttackUnits)
+							createUnit (rndAttackUnits[whichUnit], AttackFrom, startLocation (AttackFrom) )
+							givePositionCommand ( lastCreatedUnit(), 'attack', startLocation (AttackTo) )
+						end
+					end
+
+					battlemage_loop = 0
+					timesLooped = timesLooped + 1
+				end
+			end
+
+
+
+		</unitCreated>
+
+		<unitDied>
+			if lastDeadUnitName() == 'slave' then
+				slaveCount = slaveCount - 1
+			end
+
+			if lastDeadUnitName() == 'pyramid' then
+				pyramidCount = pyramidCount - 1
+
+			end
+
+			if ( slaveCount == 0 and pyramidCount == 0 ) then
+
+
+				showMessage ('failure1', 'Failure')
+				showMessage ('failure2', 'Failure')
+				showMessage ('failure3', 'Failure')
+				--wait (15)
+				for i = 4, 7 do
+					setPlayerAsWinner(i)
+				end
+				endGame()
+			end
+
+			if lastDeadUnitName() == 'mage_tower' then
+				--print (lastDeadUnitName())
+				mageTowerCount = mageTowerCount - 1
+				if mageTowerCount == 0 then
+
+					showMessage ('victory1', 'Victory')
+					showMessage ('victory2', 'Victory')
+					showMessage ('victory3', 'Victory')
+					showMessage ('victory4', 'Victory')
+					showMessage ('victory5', 'Victory')
+					--wait (15)
+
+
+					for i = 0, 3 do
+						setPlayerAsWinner(i)
+					end
+					endGame()
+				end
+			end
+
+
+
+		</unitDied>
+
+
+
+	</scripts>
+</scenario>
