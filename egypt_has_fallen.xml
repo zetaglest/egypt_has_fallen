@@ -44,7 +44,7 @@
 			daemon_loop = 0
 			timesLooped = 0
 
-			rndAttackUnits = { "power_golem", "ghost_armor", "behemoth", "draco_rider", "daemon" }
+			rndAttackUnits = { "power_golem", "ghost_armor", "behemoth", "dragon_rider", "daemon" }
 		</global>
 		<startup>
 
