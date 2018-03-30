@@ -1,17 +1,17 @@
 <?xml version="1.0" standalone="yes" ?>
 <scenario>
 --Egypt has fallen
---Rev 2016.06.22-01
+--Rev 2018.01.12
 --A MegaGlest ( https://megaglest.org/ ) network scenario
 --Stay alive long enough for your Egyptian ally to reinforce your armies!
 --By Andy Alt
 --CC-BY-SA
 <difficulty value="5"/>
 <players>
-	<player control="network" faction="tech" team="1"/>
-	<player control="human" faction="indian" team="1"/>
-	<player control="cpu-mega" faction="egypt" team="1"/>
-	<player control="network" faction="norsemen" team="1"/>
+	<player control="cpu-mega" faction="persian" team="1"/>
+	<player control="cpu-mega" faction="indian" team="1"/>
+	<player control="human" faction="egypt" team="1"/>
+	<player control="cpu-mega" faction="norsemen" team="1"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
@@ -29,7 +29,7 @@
 		<global>
 
 			--game constants. Only change them if you change the order or factions above
-			tech = 0
+			persian = 0
 			indian = 1
 			egypt = 2
 			norsemen = 3
@@ -55,12 +55,12 @@
 			--Team 1 units
 
 			--Main buildings for Team 1
-			createUnit('castle', tech, startLocation(tech))
+			createUnit('palace', persian, startLocation(persian))
 			createUnit('main_teepee', indian, startLocation(indian))
 			createUnit('castle', norsemen, startLocation(norsemen))
 
 			--create workers
-			for playerNum=tech, indian do
+			for playerNum=persian, indian do
 				for i=1, 4 do
 					createUnit('worker', playerNum, startLocation(playerNum))
 				end
@@ -70,8 +70,8 @@
 				createUnit('thrall', norsemen, startLocation(norsemen))
 			end
 
-			createUnit ( 'cow', tech, {26,210} )
-			createUnit ( 'cow', norsemen, {26,210} )
+			createUnit ( 'sheep', persian, {26,210} )
+			createUnit ( 'cow', norsemen, {26,190} )
 
 			createUnit ( 'stickfighter', indian, startLocation (indian) )
 			createUnit ( 'stickfighter', indian, startLocation (indian) )
@@ -79,11 +79,11 @@
 			createUnit ( 'axe_thrower', indian, startLocation (indian) )
 			createUnit ( 'axe_thrower', indian, startLocation (indian) )
 
-			createUnit ( 'swordman', tech, startLocation (tech) )
-			createUnit ( 'swordman', tech, startLocation (tech) )
-			createUnit ( 'archer', tech, startLocation (tech) )
-			createUnit ( 'archer', tech, startLocation (tech) )
-			createUnit ( 'archer', tech, startLocation (tech) )
+			createUnit ( 'fakir', persian, startLocation (persian) )
+			createUnit ( 'fakir', persian, startLocation (persian) )
+			createUnit ( 'princess', persian, startLocation (persian) )
+			createUnit ( 'princess', persian, startLocation (persian) )
+			createUnit ( 'princess', persian, startLocation (persian) )
 
 			createUnit ( 'spearman', norsemen, startLocation (norsemen) )
 			createUnit ( 'spearman', norsemen, startLocation (norsemen) )
@@ -135,9 +135,9 @@
 			createUnit('pyramid', egypt, startLocation(5))
 
 
-			giveResource('gold', egypt, 500)
-			giveResource('stone', egypt, 500)
-			giveResource('wood', egypt, 500)
+			giveResource('gold', egypt, 1000)
+			giveResource('stone', egypt, 1000)
+			giveResource('wood', egypt, 1000)
 
 			togglePauseGame(1)
 			showMessage ( 'Intro1', 'Introduction' )
