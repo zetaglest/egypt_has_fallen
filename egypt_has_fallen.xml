@@ -1,8 +1,8 @@
 <?xml version="1.0" standalone="yes" ?>
 <scenario>
 --Egypt has fallen
---Rev 2018.01.12
---A MegaGlest ( https://megaglest.org/ ) network scenario
+--Rev 2018.03.30
+--A ZetaGlest ( https://github.com/ZetaGlest ) network scenario
 --Stay alive long enough for your Egyptian ally to reinforce your armies!
 --By Andy Alt
 --CC-BY-SA
@@ -19,7 +19,7 @@
 </players>
 <map value="grandezza"/>
 <tileset value="autumn"/>
-<tech-tree value="megapack"/>
+<tech-tree value="zetapack"/>
 	<default-resources value="true"/>
 	<default-units value="false"/>
 	<default-victory-conditions value="false"/>
@@ -71,7 +71,6 @@
 			end
 
 			createUnit ( 'sheep', persian, {26,210} )
-			createUnit ( 'cow', norsemen, {26,190} )
 
 			createUnit ( 'stickfighter', indian, startLocation (indian) )
 			createUnit ( 'stickfighter', indian, startLocation (indian) )
