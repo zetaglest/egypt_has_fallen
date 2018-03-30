@@ -22,7 +22,7 @@ patch will consist of changes to several files. Keep unrelated patches separate
 from each other (i.e. a separate PR for each patch).
 
 ## Pull Requests
-2. [Fork the repo](https://github.com/andy5995/magic-mod_A3#fork-destination-box) (if you haven't already done so)
+2. [Fork the repo](https://github.com/ZetaGlest/egypt_has_fallen/fork) (if you haven't already done so)
 3. Clone it to your computer
 4. When you're ready to work on an issue, be sure you're on the **master** branch. From there,
 [create a separate branch](https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches)
@@ -44,6 +44,6 @@ Periodically, especially before starting a new patch, you'll need the sync your
 repo with the remote upstream. GitHub has instructions for doing this:
 
 1. [Configuring a remote for a fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
-    * For step 3 on that page, use https://github.com/andy5995/egypt_has_fallen for the URL.
+    * For step 3 on that page, use https://github.com/ZetaGlest/egypt_has_fallen for the URL.
 2. [Syncing a Fork](https://help.github.com/articles/syncing-a-fork/)
     * On that page, it shows how to merge the **master** branch (steps 4 & 5 of **Syncing a Fork**).
