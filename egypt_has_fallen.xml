@@ -13,9 +13,9 @@
 	<player control="cpu-mega" faction="egypt" team="1"/>
 	<player control="network" faction="norsemen" team="1"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
+	<player control="cpu-mega" faction="magic" resource_multiplier="3.0" team="2"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
-	<player control="cpu-mega" faction="magic" team="2"/>
-	<player control="cpu-mega" faction="magic" team="2"/>
+	<player control="cpu-mega" faction="magic" resource_multiplier="3.0"team="2"/>
 </players>
 <map value="grandezza"/>
 <tileset value="autumn"/>
