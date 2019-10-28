@@ -19,7 +19,7 @@
 </players>
 <map value="grandezza"/>
 <tileset value="autumn"/>
-<tech-tree value="zetapack"/>
+<tech-tree value="megapack"/>
 	<default-resources value="true"/>
 	<default-units value="false"/>
 	<default-victory-conditions value="false"/>
@@ -44,13 +44,8 @@
 			daemon_loop = 0
 			timesLooped = 0
 
-			rndAttackUnits = { "power_golem", "ghost_armor", "behemoth", "dragon_rider", "daemon" }
 		</global>
 		<startup>
-
-
-			math.randomseed (os.time())
-
 
 			--Team 1 units
 
@@ -179,16 +174,6 @@
 						for AIplayer = 4, 7 do
 							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
 							createUnit ('golem', AIplayer, startLocation (AIplayer) )
-						end
-
-
-						AttackFrom = math.random(4, 7)
-						AttackTo = math.random (0, 3)
-
-						for i = 1, 4 do
-							whichUnit = math.random (1, #rndAttackUnits)
-							createUnit (rndAttackUnits[whichUnit], AttackFrom, startLocation (AttackFrom) )
-							givePositionCommand ( lastCreatedUnit(), 'attack', startLocation (AttackTo) )
 						end
 					end
 
