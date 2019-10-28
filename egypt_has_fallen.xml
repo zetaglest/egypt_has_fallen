@@ -11,7 +11,7 @@
 	<player control="network" faction="persian" team="1"/>
 	<player control="human" faction="indian" team="1"/>
 	<player control="cpu-mega" faction="egypt" team="1"/>
-	<player control="cpu-mega" faction="norsemen" team="1"/>
+	<player control="network" faction="norsemen" team="1"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
