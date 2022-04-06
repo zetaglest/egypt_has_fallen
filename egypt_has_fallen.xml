@@ -41,9 +41,12 @@
 			mageTowerCount = 0
 
 			battlemage_loop = 0
+			dragon_loop = 0
 			daemon_loop = 0
 			timesLooped = 0
 
+			make_golem_count = 0
+			summoner_count = 0
 		</global>
 		<startup>
 
@@ -98,7 +101,7 @@
 				createUnit('daemon', playerNum, startLocation(playerNum))
 				createUnit('daemon', playerNum, startLocation(playerNum))
 				createUnit('golem', playerNum, startLocation(playerNum))
-				createUnit('library', playerNum, startLocation(playerNum))
+				createUnit('summoner_guild', playerNum, startLocation(playerNum))
 
 				for j=1, 5 do
 					createUnit('initiate', playerNum, startLocation(playerNum))
@@ -157,24 +160,39 @@
 				mageTowerCount = mageTowerCount + 1
 			end
 
-			if lastCreatedUnitName() == 'daemon' then
+			if lastCreatedUnitName() == 'summoner' then
+				summoner_count = summoner_count + 1
+			end
+
+			if lastCreatedUnitName() == 'daemon' and summoner_count > 0 then
 				daemon_loop = daemon_loop + 1
 				if daemon_loop == 5 then
-					--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
+					for AIplayer = 4, 7 do
+						for count = 1, 3 do
+							givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
+							createUnit ('daemon', AIplayer, startLocation(AIplayer) )
+						end
+					end
 					daemon_loop = 0
 				end
+				--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
 			end
 
 			if lastCreatedUnitName() == 'battlemage' then
 				battlemage_loop = battlemage_loop + 1
-				if battlemage_loop == 5 then
+				if battlemage_loop == 10 then
 					--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
 
 					if timesLooped > 1 then
+						make_golem_count = make_golem_count + 1
 						for AIplayer = 4, 7 do
 							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
-							createUnit ('golem', AIplayer, startLocation (AIplayer) )
+							createUnit (make_golem_count % 5 ~= 0 and 'golem' or 'archmage', AIplayer, startLocation (AIplayer) )
+							if dragon_loop == 14 then
+								createUnit ('evil_dragon', AIplayer, startLocation (AIplayer) )
+							end
 						end
+						dragon_loop = (dragon_loop + 1) % 15
 					end
 
 					battlemage_loop = 0
