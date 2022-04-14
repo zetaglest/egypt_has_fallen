@@ -1,10 +1,9 @@
 <?xml version="1.0" standalone="yes" ?>
 <scenario>
 --Egypt has fallen
---Rev 2018.03.30
---A ZetaGlest ( https://github.com/ZetaGlest ) network scenario
+--A MegaGlest ( https://github.com/MegaGlest ) network scenario
 --Stay alive long enough for your Egyptian ally to reinforce your armies!
---By Andy Alt
+--By Andy Alt and James Sherratt
 --CC-BY-SA
 <difficulty value="5"/>
 <players>
@@ -180,7 +179,7 @@
 
 			if lastCreatedUnitName() == 'battlemage' then
 				battlemage_loop = battlemage_loop + 1
-				if battlemage_loop == 10 then
+				if battlemage_loop == 5 then
 					--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
 
 					if timesLooped > 1 then
