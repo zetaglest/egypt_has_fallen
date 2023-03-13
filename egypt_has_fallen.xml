@@ -185,7 +185,7 @@
 						make_golem_count = make_golem_count + 1
 						for AIplayer = 4, 7 do
 							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
-							createUnit (make_golem_count % 5 ~= 0 and 'golem' or 'archmage', AIplayer, startLocation (AIplayer) )
+							createUnit (make_golem_count % 5 ~= 0 and 'power_golem' or 'archmage', AIplayer, startLocation (AIplayer) )
 							if dragon_loop == 14 then
 								createUnit ('evil_dragon', AIplayer, startLocation (AIplayer) )
 							end
