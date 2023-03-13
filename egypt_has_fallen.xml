@@ -130,11 +130,6 @@
 			--building a new base
 			createUnit('pyramid', egypt, startLocation(5))
 
-
-			giveResource('gold', egypt, 1000)
-			giveResource('stone', egypt, 1000)
-			giveResource('wood', egypt, 1000)
-
 			togglePauseGame(1)
 			showMessage ( 'Intro1', 'Introduction' )
 			showMessage ( 'Intro2', 'Introduction' );
@@ -145,7 +140,6 @@
 
 		</startup>
 
-
 		<unitCreated>
 			if lastCreatedUnitName() == 'slave' then
 				slaveCount = slaveCount + 1
@@ -153,6 +147,11 @@
 
 			if lastCreatedUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount + 1
+				if pyramidCount == 1 then
+					giveResource('gold', egypt, 1000)
+					giveResource('stone', egypt, 1000)
+					giveResource('wood', egypt, 1000)
+				end
 			end
 
 			if lastCreatedUnitName() == 'mage_tower' then
