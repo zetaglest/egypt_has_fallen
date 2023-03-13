@@ -4,6 +4,7 @@
 --A MegaGlest ( https://github.com/MegaGlest ) network scenario
 --Stay alive long enough for your Egyptian ally to reinforce your armies!
 --By Andy Alt and James Sherratt
+--https://github.com/zetaglest/egypt_has_fallen
 --CC-BY-SA
 <difficulty value="5"/>
 <players>
