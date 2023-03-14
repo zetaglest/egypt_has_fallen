@@ -67,6 +67,7 @@
 			for i=1, 4 do
 				createUnit('thrall', norsemen, startLocation(norsemen))
 			end
+			createUnit('cow', norsemen, startLocation(norsemen))
 
 			createUnit ( 'sheep', persian, {26,210} )
 
