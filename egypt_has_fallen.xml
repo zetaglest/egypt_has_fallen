@@ -203,6 +203,19 @@
 				slaveCount = slaveCount - 1
 			end
 
+			killer_id = unitFaction(lastDeadUnitKiller())
+
+			<!-- if trying to use the < sign, MegaGlest will crash, so
+			assigning this here with a > sign so it can be used as a boolean value -->
+			enemy_killed = killer_id > 3
+
+			if (lastDeadUnitCauseOfDeath() == 1 and enemy_killed == false and unitFaction(lastDeadUnit()) >= 4) then
+				if (killer_id ~= unitFaction(lastDeadUnit())) then
+					giveResource('gold', killer_id, 50)
+					giveResource('stone', killer_id, 25)
+				end
+			end
+
 			if lastDeadUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount - 1
 			end
