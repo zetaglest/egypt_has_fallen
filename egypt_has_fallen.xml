@@ -88,8 +88,6 @@
 			createUnit ( 'archer', norsemen, startLocation (norsemen) )
 			createUnit ( 'archer', norsemen, startLocation (norsemen) )
 
-
-
 			--create AI units (Team 2, Magic)
 			for playerNum=4, 7 do
 				createUnit('mage_tower', playerNum, startLocation(playerNum))
@@ -107,15 +105,11 @@
 					createUnit('initiate', playerNum, startLocation(playerNum))
 				end
 			--create nearby Egypt enemies
-			createUnit ( 'spearthrower', egypt, startLocation(playerNum) )
-						createUnit ( 'scarab', egypt, startLocation(playerNum) )
-			createUnit ( 'mummy', egypt, startLocation(playerNum) )
-			createUnit ( 'mummy', egypt, startLocation(playerNum) )
-
-
+				createUnit ( 'spearthrower', egypt, startLocation(playerNum) )
+				createUnit ( 'scarab', egypt, startLocation(playerNum) )
+				createUnit ( 'mummy', egypt, startLocation(playerNum) )
+				createUnit ( 'mummy', egypt, startLocation(playerNum) )
 			end
-
-
 
 			--Egypt units
 
@@ -211,12 +205,9 @@
 
 			if lastDeadUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount - 1
-
 			end
 
 			if ( slaveCount == 0 and pyramidCount == 0 ) then
-
-
 				showMessage ('failure1', 'Failure')
 				showMessage ('failure2', 'Failure')
 				showMessage ('failure3', 'Failure')
@@ -239,7 +230,6 @@
 					showMessage ('victory5', 'Victory')
 					--wait (15)
 
-
 					for i = 0, 3 do
 						setPlayerAsWinner(i)
 					end
@@ -247,11 +237,6 @@
 				end
 			end
 
-
-
 		</unitDied>
-
-
-
 	</scripts>
 </scenario>
