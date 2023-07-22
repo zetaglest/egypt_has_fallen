@@ -1,3 +1,5 @@
+[![Validate MegaGlest mod](https://github.com/zetaglest/egypt_has_fallen/actions/workflows/test.yml/badge.svg)](https://github.com/zetaglest/egypt_has_fallen/actions/workflows/test.yml)
+
 # egypt_has_fallen
 
 A @MegaGlest network scenario
