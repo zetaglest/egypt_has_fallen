@@ -8,9 +8,9 @@
 --CC-BY-SA
 <difficulty value="5"/>
 <players>
+	<player control="cpu-mega" faction="egypt" team="1"/>
 	<player control="network" faction="persian" team="1"/>
 	<player control="human" faction="indian" team="1"/>
-	<player control="cpu-mega" faction="egypt" team="1"/>
 	<player control="network" faction="norsemen" team="1"/>
 	<player control="cpu-mega" faction="magic" team="2"/>
 	<player control="cpu-mega" faction="magic" resource_multiplier="3.0" team="2"/>
@@ -23,15 +23,15 @@
 	<default-resources value="true"/>
 	<default-units value="false"/>
 	<default-victory-conditions value="false"/>
-	<fog-of-war value="true"/>
+	<fog-of-war value="false"/>
 
 	<scripts>
 		<global>
 
 			--game constants. Only change them if you change the order or factions above
-			persian = 0
-			indian = 1
-			egypt = 2
+			egypt = 0
+			persian = 1
+			indian = 2
 			norsemen = 3
 
 			--other variables. Best to leave them unchanged as well ;)
@@ -63,6 +63,17 @@
 					createUnit('worker', playerNum, startLocation(playerNum))
 				end
 			end
+
+			diffMultiplier = 0
+			for i=0, 3 do
+				strName = getPlayerName(i)
+				print(strName)
+				if strName ~= 'Network' and not string.find(strName, 'AI') and strName ~= '???' then
+					print(strName)
+					diffMultiplier = diffMultiplier + 1
+				end
+			end
+			print(diffMultiplier)
 
 			for i=1, 4 do
 				createUnit('thrall', norsemen, startLocation(norsemen))
@@ -162,33 +173,33 @@
 				daemon_loop = daemon_loop + 1
 				if daemon_loop == 5 then
 					for AIplayer = 4, 7 do
-						for count = 1, 3 do
+						for diff=1,diffMultiplier * 2 do
+							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
 							givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
 							createUnit ('daemon', AIplayer, startLocation(AIplayer) )
+							givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
 						end
 					end
 					daemon_loop = 0
 				end
-				--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
 			end
 
 			if lastCreatedUnitName() == 'battlemage' then
 				battlemage_loop = battlemage_loop + 1
 				if battlemage_loop == 5 then
-					--givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
-
 					if timesLooped > 1 then
 						make_golem_count = make_golem_count + 1
 						for AIplayer = 4, 7 do
 							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
 							createUnit (make_golem_count % 5 ~= 0 and 'power_golem' or 'archmage', AIplayer, startLocation (AIplayer) )
 							if dragon_loop == 14 then
-								createUnit ('evil_dragon', AIplayer, startLocation (AIplayer) )
+								for diff=1,diffMultiplier * 2 do
+									createUnit ('evil_dragon', AIplayer, startLocation (AIplayer) )
+								end
 							end
 						end
 						dragon_loop = (dragon_loop + 1) % 15
 					end
-
 					battlemage_loop = 0
 					timesLooped = timesLooped + 1
 				end
