@@ -192,8 +192,6 @@
 					for AIplayer = 4, 7 do
 						for diff=1,humanPlayers * 2 do
 							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
-							givePositionCommand( lastCreatedUnit(), 'move', {startLocation(egypt)[1]+10,startLocation(egypt)[2]-10} )
-							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
 							givePositionCommand( lastCreatedUnit(), 'attack', {startLocation(egypt)[1]+10,startLocation(egypt)[2]-10} )
 						end
 					end
