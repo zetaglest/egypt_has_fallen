@@ -31,7 +31,7 @@
 			--game constants. Only change them if you change the order or factions above
 			egypt = 0
 			persian = 1
-			indian = 2
+			native_american = 2
 			norsemen = 3
 
 			--other variables. Best to leave them unchanged as well ;)
@@ -47,6 +47,9 @@
 
 			make_golem_count = 0
 			summoner_count = 0
+
+			initPyramid = 1
+			firstPyramidBuilt = 0
 		</global>
 		<startup>
 
@@ -54,97 +57,103 @@
 
 			--Main buildings for Team 1
 			createUnit('palace', persian, startLocation(persian))
-			createUnit('main_teepee', indian, startLocation(indian))
+			createUnit('main_teepee', native_american, startLocation(native_american))
 			createUnit('castle', norsemen, startLocation(norsemen))
 
 			--create workers
-			for playerNum=persian, indian do
+			for playerNum=persian, native_american do
 				for i=1, 4 do
 					createUnit('worker', playerNum, startLocation(playerNum))
 				end
 			end
 
-			diffMultiplier = 0
+			humanPlayers = 0
 			for i=0, 3 do
 				strName = getPlayerName(i)
-				print(strName)
+				--print(strName)
 				if strName ~= 'Network' and not string.find(strName, 'AI') and strName ~= '???' then
-					print(strName)
-					diffMultiplier = diffMultiplier + 1
+					--print(strName)
+					humanPlayers = humanPlayers + 1
 				end
 			end
-			print(diffMultiplier)
 
 			for i=1, 4 do
 				createUnit('thrall', norsemen, startLocation(norsemen))
 			end
 			createUnit('cow', norsemen, startLocation(norsemen))
 
-			createUnit ( 'sheep', persian, {26,210} )
+			for i=0,1 do
+				createUnit( 'sheep', persian, startLocation(persian) )
+			end
 
-			createUnit ( 'stickfighter', indian, startLocation (indian) )
-			createUnit ( 'stickfighter', indian, startLocation (indian) )
-			createUnit ( 'axe_thrower', indian, startLocation (indian) )
-			createUnit ( 'axe_thrower', indian, startLocation (indian) )
-			createUnit ( 'axe_thrower', indian, startLocation (indian) )
+			-- Native American starting units
+			for _, unit in ipairs({'stickfighter', 'stickfighter', 'axe_thrower', 'axe_thrower', 'axe_thrower'}) do
+				createUnit(unit, native_american, startLocation (native_american))
+			end
 
-			createUnit ( 'fakir', persian, startLocation (persian) )
-			createUnit ( 'fakir', persian, startLocation (persian) )
-			createUnit ( 'princess', persian, startLocation (persian) )
-			createUnit ( 'princess', persian, startLocation (persian) )
-			createUnit ( 'princess', persian, startLocation (persian) )
+			-- Persian starting units
+			for i=0,2 do
+				createUnit('fakir', persian, startLocation (persian))
+			end
+			for i=0,2 do
+				createUnit('princess', persian, startLocation (persian))
+			end
 
-			createUnit ( 'spearman', norsemen, startLocation (norsemen) )
-			createUnit ( 'spearman', norsemen, startLocation (norsemen) )
-			createUnit ( 'archer', norsemen, startLocation (norsemen) )
-			createUnit ( 'archer', norsemen, startLocation (norsemen) )
-			createUnit ( 'archer', norsemen, startLocation (norsemen) )
+
+			for i=0,1 do
+				createUnit('spearman', norsemen, startLocation (norsemen))
+			end
+			for i=0,2 do
+				createUnit('archer', norsemen, startLocation (norsemen))
+			end
 
 			--create AI units (Team 2, Magic)
 			for playerNum=4, 7 do
-				createUnit('mage_tower', playerNum, startLocation(playerNum))
-				createUnit('energy_source',playerNum , startLocation(playerNum))
-				createUnit('energy_source',playerNum , startLocation(playerNum))
-				createUnit('battlemage', playerNum, startLocation(playerNum))
-				createUnit('battlemage', playerNum, startLocation(playerNum))
-				createUnit('daemon', playerNum, startLocation(playerNum))
-				createUnit('daemon', playerNum, startLocation(playerNum))
-				createUnit('daemon', playerNum, startLocation(playerNum))
-				createUnit('golem', playerNum, startLocation(playerNum))
-				createUnit('summoner_guild', playerNum, startLocation(playerNum))
+				for _, unit in ipairs({'mage_tower', 'energy_source', 'energy_source', 'battlemage', 'battlemage', 'daemon', 'daemon', 'golem', 'summoner_guild'}) do
+					createUnit(unit, playerNum, startLocation(playerNum))
+				end
 
 				for j=1, 5 do
 					createUnit('initiate', playerNum, startLocation(playerNum))
 				end
 			--create nearby Egypt enemies
-				createUnit ( 'spearthrower', egypt, startLocation(playerNum) )
-				createUnit ( 'scarab', egypt, startLocation(playerNum) )
-				createUnit ( 'mummy', egypt, startLocation(playerNum) )
-				createUnit ( 'mummy', egypt, startLocation(playerNum) )
+				for _, unit in ipairs({'spearthrower', 'scarab', 'mummy', 'mummy'}) do
+					createUnit( unit, egypt, startLocation(playerNum))
+				end
 			end
 
 			--Egypt units
-
-			createUnit( 'farm', egypt, {26,222} )
-			createUnit( 'farm', egypt, {26,222} )
-			createUnit( 'chicken', egypt, {26,210} )
-			createUnit( 'chicken', egypt, {26,210} )
-			createUnit('slave', egypt, startLocation(egypt))
-
+			for i=0,1 do
+				createUnit( 'farm', egypt, {startLocation(egypt)[1]+20, startLocation(egypt)[2]+30} )
+				createUnit( 'chicken', egypt, {startLocation(egypt)[1]+20, startLocation(egypt)[2]+30} )
+			end
+			createUnit('slave', egypt, {startLocation(egypt)[1], startLocation(egypt)[2]+30})
+			giveProductionCommand(lastCreatedUnit(), 'pyramid')
 
 			--The starting pyramid is located near the enemy's  base
 			--It's needed to store resources long enough for Egypt to start
 			--building a new base
 			createUnit('pyramid', egypt, startLocation(5))
+			--print(startingPyramidID)
+
+-- Give players extra resources depending on how many human players
+-- are connected
+			for _, player in ipairs({persian, norsemen, native_american, egypt}) do
+				for __, res in ipairs({'gold', 'stone', 'wood'}) do
+					giveResource(res, player, 800/humanPlayers)
+					print('giving res')
+				end
+			end
+
+			-- Give some extra res to Egypt to help build their first pyramid
+			for _, res in ipairs({'gold', 'stone', 'wood'}) do
+				giveResource(res, egypt, 400)
+			end
 
 			togglePauseGame(1)
-			showMessage ( 'Intro1', 'Introduction' )
-			showMessage ( 'Intro2', 'Introduction' );
-			showMessage ( 'Intro3', 'Introduction' );
-			showMessage ( 'Intro4', 'Introduction' );
-			showMessage ( 'Intro5', 'Introduction' );
-
-
+			for _, intro in ipairs({'Intro1', 'Intro2','Intro3','Intro4','Intro5'}) do
+				showMessage ( intro, 'Introduction' )
+			end
 		</startup>
 
 		<unitCreated>
@@ -154,10 +163,18 @@
 
 			if lastCreatedUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount + 1
-				if pyramidCount == 1 then
-					giveResource('gold', egypt, 1000)
-					giveResource('stone', egypt, 1000)
-					giveResource('wood', egypt, 1000)
+				--print('pyramids:')
+				-- print(pyramidCount)
+				if pyramidCount == 1 and firstPyramidBuilt == 0 then
+					if initPyramid == 0 then
+						for _, res in ipairs({'gold', 'stone', 'wood'}) do
+							print(res)
+							giveResource(res, egypt, 1000)
+						end
+						firstPyramidBuilt = 1
+					else
+						initPyramid = 0
+					end
 				end
 			end
 
@@ -171,13 +188,13 @@
 
 			if lastCreatedUnitName() == 'daemon' and summoner_count > 0 then
 				daemon_loop = daemon_loop + 1
-				if daemon_loop == 5 then
+				if daemon_loop == 4 then
 					for AIplayer = 4, 7 do
-						for diff=1,diffMultiplier * 2 do
+						for diff=1,humanPlayers * 2 do
 							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
-							givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
-							createUnit ('daemon', AIplayer, startLocation(AIplayer) )
-							givePositionCommand( lastCreatedUnit(), 'attack', startLocation(egypt) )
+							givePositionCommand( lastCreatedUnit(), 'move', {startLocation(egypt)[1]+10,startLocation(egypt)[2]-10} )
+							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
+							givePositionCommand( lastCreatedUnit(), 'attack', {startLocation(egypt)[1]+10,startLocation(egypt)[2]-10} )
 						end
 					end
 					daemon_loop = 0
@@ -193,7 +210,7 @@
 							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
 							createUnit (make_golem_count % 5 ~= 0 and 'power_golem' or 'archmage', AIplayer, startLocation (AIplayer) )
 							if dragon_loop == 14 then
-								for diff=1,diffMultiplier * 2 do
+								for diff=1,humanPlayers * 2 do
 									createUnit ('evil_dragon', AIplayer, startLocation (AIplayer) )
 								end
 							end
@@ -211,29 +228,14 @@
 				slaveCount = slaveCount - 1
 			end
 
-			killer_id = unitFaction(lastDeadUnitKiller())
-
-			<!-- if trying to use the < sign, MegaGlest will crash, so
-			assigning this here with a > sign so it can be used as a boolean value -->
-			enemy_killed = killer_id > 3
-
-<!--
-			if (lastDeadUnitCauseOfDeath() == 1 and enemy_killed == false and unitFaction(lastDeadUnit()) >= 4) then
-				if (killer_id ~= unitFaction(lastDeadUnit())) then
-					giveResource('gold', killer_id, 50)
-					giveResource('stone', killer_id, 25)
-				end
-			end
--->
-
 			if lastDeadUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount - 1
 			end
 
 			if ( slaveCount == 0 and pyramidCount == 0 ) then
-				showMessage ('failure1', 'Failure')
-				showMessage ('failure2', 'Failure')
-				showMessage ('failure3', 'Failure')
+				for _, failMsg in ipairs({'failure1', 'failure2', 'failure3'}) do
+					showMessage (failMsg, 'Failure')
+				end
 				--wait (15)
 				for i = 4, 7 do
 					setPlayerAsWinner(i)
@@ -245,12 +247,9 @@
 				--print (lastDeadUnitName())
 				mageTowerCount = mageTowerCount - 1
 				if mageTowerCount == 0 then
-
-					showMessage ('victory1', 'Victory')
-					showMessage ('victory2', 'Victory')
-					showMessage ('victory3', 'Victory')
-					showMessage ('victory4', 'Victory')
-					showMessage ('victory5', 'Victory')
+					for _, vicMsg in ipairs({'victory1', 'victory2', 'victory3', 'victory4', 'victory5'}) do
+						showMessage (vicMsg, 'Victory')
+					end
 					--wait (15)
 
 					for i = 0, 3 do
