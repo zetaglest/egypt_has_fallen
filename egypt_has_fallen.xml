@@ -188,7 +188,7 @@
 
 			if lastCreatedUnitName() == 'daemon' and summoner_count > 0 then
 				daemon_loop = daemon_loop + 1
-				if daemon_loop == 4 then
+				if daemon_loop == 6 then
 					for AIplayer = 4, 7 do
 						for diff=1,humanPlayers * 2 do
 							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
