@@ -23,7 +23,7 @@
 	<default-resources value="true"/>
 	<default-units value="false"/>
 	<default-victory-conditions value="false"/>
-	<fog-of-war value="false"/>
+	<fog-of-war value="true"/>
 
 	<scripts>
 		<global>
