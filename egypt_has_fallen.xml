@@ -230,7 +230,7 @@
 				pyramidCount = pyramidCount - 1
 			end
 
-			if ( slaveCount == 0 and pyramidCount == 0 ) then
+			if (pyramidCount == 0 and ((firstPyramidBuilt == 0 and slaveCount == 0) or firstPyramidBuilt == 1)) then
 				for _, failMsg in ipairs({'failure1', 'failure2', 'failure3'}) do
 					showMessage (failMsg, 'Failure')
 				end
