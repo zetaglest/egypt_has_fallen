@@ -47,6 +47,7 @@
 
 			make_golem_count = 0
 			summoner_count = 0
+			toggleTowerBehemoth = 0
 
 			initPyramid = 1
 			firstPyramidBuilt = 0
@@ -138,7 +139,7 @@
 
 -- Give players extra resources depending on how many human players
 -- are connected
-			for _, player in ipairs({persian, norsemen, native_american, egypt}) do
+			for _, player in ipairs({persian, norsemen, native_american}) do
 				for __, res in ipairs({'gold', 'stone', 'wood'}) do
 					giveResource(res, player, 800/humanPlayers)
 				end
@@ -158,16 +159,13 @@
 		<unitCreated>
 			if lastCreatedUnitName() == 'slave' then
 				slaveCount = slaveCount + 1
-			end
-
-			if lastCreatedUnitName() == 'pyramid' then
+			elseif lastCreatedUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount + 1
 				--print('pyramids:')
 				-- print(pyramidCount)
 				if pyramidCount == 1 and firstPyramidBuilt == 0 then
 					if initPyramid == 0 then
 						for _, res in ipairs({'gold', 'stone', 'wood'}) do
-							print(res)
 							giveResource(res, egypt, 1000)
 						end
 						firstPyramidBuilt = 1
@@ -175,36 +173,38 @@
 						initPyramid = 0
 					end
 				end
-			end
-
-			if lastCreatedUnitName() == 'mage_tower' then
+			elseif lastCreatedUnitName() == 'mage_tower' then
 				mageTowerCount = mageTowerCount + 1
-			end
-
-			if lastCreatedUnitName() == 'summoner' then
+			elseif lastCreatedUnitName() == 'summoner' then
 				summoner_count = summoner_count + 1
-			end
-
-			if lastCreatedUnitName() == 'daemon' and summoner_count > 0 then
+			elseif lastCreatedUnitName() == 'daemon' and summoner_count > 0 then
 				daemon_loop = daemon_loop + 1
-				if daemon_loop == 6 then
+				if daemon_loop == (8 - humanPlayers) then
 					for AIplayer = 4, 7 do
-						for diff=1,humanPlayers * 2 do
+						for diff=1,humanPlayers do
 							createUnit ('battlemage', AIplayer, startLocation(AIplayer) )
-							givePositionCommand( lastCreatedUnit(), 'attack', {startLocation(egypt)[1]+10,startLocation(egypt)[2]-10} )
+							givePositionCommand(lastCreatedUnit(), 'attack', startLocation(egypt))
 						end
 					end
 					daemon_loop = 0
 				end
-			end
-
-			if lastCreatedUnitName() == 'battlemage' then
+			elseif lastCreatedUnitName() == 'battlemage' then
 				battlemage_loop = battlemage_loop + 1
-				if battlemage_loop == 5 then
+				if battlemage_loop == (7 - humanPlayers) then
 					if timesLooped > 1 then
 						make_golem_count = make_golem_count + 1
 						for AIplayer = 4, 7 do
-							createUnit ('tower_of_souls', AIplayer, startLocation(AIplayer) )
+							local unit = ''
+							if toggleTowerBehemoth == 1 then
+								unit = 'behemoth'
+							else
+								unit = 'tower_of_souls'
+							end
+							toggleTowerBehemoth = 1 - toggleTowerBehemoth
+							createUnit(unit, AIplayer, startLocation(AIplayer))
+							if unit == 'behemoth' then
+								givePositionCommand(lastCreatedUnit(), 'attack', startLocation(egypt))
+							end
 							createUnit (make_golem_count % 5 ~= 0 and 'power_golem' or 'archmage', AIplayer, startLocation (AIplayer) )
 							if dragon_loop == 14 then
 								for diff=1,humanPlayers * 2 do
@@ -223,9 +223,7 @@
 		<unitDied>
 			if lastDeadUnitName() == 'slave' then
 				slaveCount = slaveCount - 1
-			end
-
-			if lastDeadUnitName() == 'pyramid' then
+			elseif lastDeadUnitName() == 'pyramid' then
 				pyramidCount = pyramidCount - 1
 			end
 
@@ -238,9 +236,7 @@
 					setPlayerAsWinner(i)
 				end
 				endGame()
-			end
-
-			if lastDeadUnitName() == 'mage_tower' then
+			elseif lastDeadUnitName() == 'mage_tower' then
 				--print (lastDeadUnitName())
 				mageTowerCount = mageTowerCount - 1
 				if mageTowerCount == 0 then
