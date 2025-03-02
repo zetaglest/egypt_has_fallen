@@ -27,7 +27,7 @@
 
 	<scripts>
 		<global>
-
+			VERSION='0.2.1'
 			--game constants. Only change them if you change the order or factions above
 			egypt = 0
 			persian = 1
@@ -52,7 +52,7 @@
 			firstPyramidBuilt = 0
 		</global>
 		<startup>
-
+			print('Egypt has Fallen! v' .. VERSION)
 			--Team 1 units
 
 			--Main buildings for Team 1
@@ -141,7 +141,6 @@
 			for _, player in ipairs({persian, norsemen, native_american, egypt}) do
 				for __, res in ipairs({'gold', 'stone', 'wood'}) do
 					giveResource(res, player, 800/humanPlayers)
-					print('giving res')
 				end
 			end
 
